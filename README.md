@@ -14,7 +14,8 @@
 
 ## Design
 Below figure represents the high level architecture[1].
-![Architectural Diagram](https://github.com/arifurreza/DevOps-Coding-Challenge/architecture.png)
+![Architectural Diagram](https://github.com/arifurreza/DevOps-Coding-Challenge/blob/master/architecture.png)
+
 
 
 Specs:
