@@ -4,6 +4,7 @@
 2. [Design](#architecture)
 3. [Installation](#installation)
 4. [Deployment](#deployment)
+5. [Delete](#delete)
 
 
 ## Goal
@@ -69,4 +70,10 @@ Replace `app_server1_IP` by Application Server 1 IP, `app_server2_IP` by Applica
 
 Restart your nginx web server for your changes to reflect.
 `service nginx restart`
+
+## Delete
+
+You can delete the stack in by executing the below command
+
+`aws cloudformation delete-stack --stack-name web_app`
 
