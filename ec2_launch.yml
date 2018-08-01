@@ -25,6 +25,19 @@ Resources:
         FromPort: '22'
         ToPort: '22'
         CidrIp: 0.0.0.0/0
+    MongoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Opening up Mongo and SSH port.
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '27017'
+        ToPort: '27017'
+        CidrIp: 10.0.0.0/8
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
   WebApp1:
     Type: AWS::EC2::Instance
     Description: Launching Web App 1.
@@ -39,7 +52,7 @@ Resources:
        yum update -y
        sudo su
        yum install golang -y
-       export MONGODB_URL mongodb://MONGODB_USER:PASS@HOST:PORT/DB_NAME
+       export MONGODB_URL mongodb://admin:admin@HOST:27017/admin
        yum install git -y
        git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
        cd DevOps-Coding-Challenge/
@@ -59,7 +72,7 @@ Resources:
        yum update -y
        sudo su
        yum install golang -y
-       export MONGODB_URL mongodb://MONGODB_USER:PASS@HOST:PORT/DB_NAME
+       export MONGODB_URL mongodb://admin:admin@HOST:27017/admin
        yum install git -y
        git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
        cd DevOps-Coding-Challenge/
@@ -85,3 +98,66 @@ Resources:
        git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
        cd DevOps-Coding-Challenge/
        cp load_balancer.conf /etc/nginx/conf.d/
+  MongoMaster:
+    Type: AWS::EC2::Instance
+    Description: Launching Mongo Master.
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05868579
+      KeyName: ec2-keypair
+      SecurityGroups:
+        - !Ref MongoSG
+      UserData: !Base64 |
+       #!/bin/bash
+       wget https://repo.mongodb.org/yum/amazon/mongodb-org-3.1.repo -P /etc/yum.repos.d/
+       yum update -y
+       yum install -y mongodb-org
+       service mongod start
+       chkconfig mongod on
+       yum install git -y
+       git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
+       cd DevOps-Coding-Challenge/
+       chmod +x mongo.sh
+       bash ./mongo.sh
+  MongoSecondary1:
+    Type: AWS::EC2::Instance
+    Description: Launching Mongo Secondary 1.
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05868579
+      KeyName: ec2-keypair
+      SecurityGroups:
+        - !Ref MongoSG
+      UserData: !Base64 |
+       #!/bin/bash
+       wget https://repo.mongodb.org/yum/amazon/mongodb-org-3.1.repo -P /etc/yum.repos.d/
+       yum update -y
+       yum install -y mongodb-org
+       service mongod start
+       chkconfig mongod on
+       yum install git -y
+       git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
+       cd DevOps-Coding-Challenge/
+       chmod +x mongo.sh
+       bash ./mongo.sh
+  MongoSecondary2:
+    Type: AWS::EC2::Instance
+    Description: Launching Mongo Secondary 2.
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05868579
+      KeyName: ec2-keypair
+      SecurityGroups:
+        - !Ref MongoSG
+      UserData: !Base64 |
+       #!/bin/bash
+       wget https://repo.mongodb.org/yum/amazon/mongodb-org-3.1.repo -P /etc/yum.repos.d/
+       yum update -y
+       yum install -y mongodb-org
+       service mongod start
+       chkconfig mongod on
+       yum install git -y
+       git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
+       cd DevOps-Coding-Challenge/
+       chmod +x mongo.sh
+       bash ./mongo.sh
