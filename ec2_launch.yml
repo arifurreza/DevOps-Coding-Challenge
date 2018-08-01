@@ -84,4 +84,4 @@ Resources:
        yum install git -y
        git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
        cd DevOps-Coding-Challenge/
-       cp load-balancer.conf /etc/nginx/conf.d/
+       cp load_balancer.conf /etc/nginx/conf.d/
