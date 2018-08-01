@@ -43,8 +43,8 @@ Resources:
        yum install git -y
        git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
        cd DevOps-Coding-Challenge/
-       chmod +x run-app.sh
-       nohup ./run-app.sh &
+       chmod +x app.sh
+       nohup ./app.sh &
   WebApp2:
     Type: AWS::EC2::Instance
     Description: Launching Web App 2.
@@ -63,8 +63,8 @@ Resources:
        yum install git -y
        git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
        cd DevOps-Coding-Challenge/
-       chmod +x run-app.sh
-       nohup ./run-app.sh &
+       chmod +x app.sh
+       nohup ./app.sh &
   LoadBalancer:
     Type: AWS::EC2::Instance
     Description: Launching Load Balancer.
