@@ -1,4 +1,4 @@
-#Web Application with Round Robin Load Balancing & Mongo DB
+# Web Application with Round Robin Load Balancing & Mongo DB
 
 1. [Goal](#Goal)
 2. [Design](#architecture)
@@ -47,7 +47,7 @@ Things achieved by executing above commands are:
 - Procures 3 EC2 Instances, Installs MongoDB and runs the MongoDB server with 27017 port and create admin database as well as admin user and some necessary configuration
 
 Finally, configure your NGINX Web Server to listen request over 2 Application Server via round-robin load balancing mechanism.
-Login to your NGINX Web Server via SSH and edit `/etc/nginx/conf.d/loadb_lancer.conf`
+Login to your NGINX Web Server via SSH and edit `/etc/nginx/conf.d/load_blancer.conf`
 
 ```
 upstream backend {
