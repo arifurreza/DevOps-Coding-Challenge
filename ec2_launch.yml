@@ -1,0 +1,87 @@
+Resources:
+  WebAppSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Opening up HTTP and SSH port.
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 10.0.0.0/8
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+    LoadBalancerSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Opening up HTTP and SSH port.
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+  WebApp1:
+    Type: AWS::EC2::Instance
+    Description: Launching Web App 1.
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05868579
+      KeyName: ec2-keypair
+      SecurityGroups:
+        - !Ref WebAppSG
+      UserData: !Base64 |
+       #!/bin/bash
+       yum update -y
+       sudo su
+       yum install golang -y
+       export MONGODB_URL mongodb://MONGODB_USER:PASS@HOST:PORT/DB_NAME
+       yum install git -y
+       git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
+       cd DevOps-Coding-Challenge/
+       chmod +x run-app.sh
+       nohup ./run-app.sh &
+  WebApp2:
+    Type: AWS::EC2::Instance
+    Description: Launching Web App 2.
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05868579
+      KeyName: ec2-keypair
+      SecurityGroups:
+        - !Ref WebAppSG
+      UserData: !Base64 |
+       #!/bin/bash
+       yum update -y
+       sudo su
+       yum install golang -y
+       export MONGODB_URL mongodb://MONGODB_USER:PASS@HOST:PORT/DB_NAME
+       yum install git -y
+       git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
+       cd DevOps-Coding-Challenge/
+       chmod +x run-app.sh
+       nohup ./run-app.sh &
+  LoadBalancer:
+    Type: AWS::EC2::Instance
+    Description: Launching Load Balancer.
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05868579
+      KeyName: ec2-keypair
+      SecurityGroups:
+        - !Ref LoadBalancerSG
+      UserData: !Base64 |
+       #!/bin/bash
+       yum update -y
+       yum install epel-release -y
+       yum install nginx -y
+       chkconfig nginx
+       service nginx start
+       yum install git -y
+       git clone https://github.com/arifurreza/DevOps-Coding-Challenge.git
+       cd DevOps-Coding-Challenge/
+       cp load-balancer.conf /etc/nginx/conf.d/
