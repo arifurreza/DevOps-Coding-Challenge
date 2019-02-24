@@ -14,7 +14,8 @@
   - Following architecture has been implemented in AWS platform by CloudFormation service.
 
 ## Design
-Below figure represents the high level architecture[1].
+Below figure represents the high level architecture[1]
+
 ![Architectural Diagram](https://github.com/arifurreza/DevOps-Coding-Challenge/blob/master/architecture.png)
 
 
